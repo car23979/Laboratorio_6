@@ -76,3 +76,10 @@ int main(void) {
 		UART_Transmit('A' + (counter % 26)); // Envia letras de la A a la Z
 		enviar_cadena("\r\nEnviado: ");
 		UART_Transmit('A' + (counter % 26));
+		
+		// Parte 2: Si se recibió nuevo dato, mostrar eco
+		if(new_data_flag) {
+			enviar_cadena("\r\nRecibido: ");
+			UART_Transmit(received_char);
+			new_data_flag = 0; // Resetear flag
+		}
