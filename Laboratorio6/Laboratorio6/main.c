@@ -29,7 +29,16 @@ void UART_init(unsigned int ubrr) {
 }
 
 // Enviar un caracter
-void UART_sendChar(char data) {
+void UART_Transmit(unsigned char data) {
 	while (!(UCSR0A & (1 << UDRE0)));  // Espera a que el buffer esté vacío
 	UDR0 = data;
+}
+
+// Función para enviar cadenas (Parte 1)
+void enviar_cadena(char txt[]) {
+	int i = 0;
+	while (txt[i] != '\0') {
+		UART_Transmit(txt[i]);
+		i++;
+	}
 }
