@@ -17,9 +17,11 @@
 volatile unsigned char received_char = 0;
 volatile uint8_t new_data_flag = 0;
 
-void UART_init(void) {
-	UBRR0H = (unsigned char)(UBRR_VALUE >> 8);
-	UBRR0L = (unsigned char)(UBRR_VALUE);
+// Inicialización UART
+void UART_init(unsigned int ubrr) {
+    // Configurar baud rate
+	UBRR0H = (unsigned char)(ubrr >> 8);
+	UBRR0L = (unsigned char)(ubrr);
 	UCSR0B = (1 << RXEN0) | (1 << TXEN0);  // RX y TX habilitados
 	UCSR0C = (1 << UCSZ01) | (1 << UCSZ00); // 8 bits, sin paridad
 }
