@@ -6,22 +6,30 @@
  */ 
 
 #define F_CPU 16000000UL
+#define BAUD 9600
+#define MYUBRR F_CPU/16/BAUD-1
 
 #include <avr/io.h>
 #include <util/delay.h>
+#include <avr/interrupt.h>
 
-#define BAUD 9600
-#define MYUBRR F_CPU/16/BAUD-1
+
+
 
 // Variables globales
 volatile unsigned char received_char = 0;
 volatile uint8_t new_data_flag = 0;
 
+// Prototipos de funciones
+void UART_Init(unsigned int ubrr);
+void UART_Transmit(unsigned char data);
+void enviar_cadena(const char *txt);
+
 // Inicialización UART
 void UART_init(unsigned int ubrr) {
     // Configurar baud rate
 	UBRR0H = (unsigned char)(ubrr >> 8);
-	UBRR0L = (unsigned char)(ubrr);
+	UBRR0L = (unsigned char)ubrr;
 	// Habilitar transmisor, receptor e interrupción por recepción
 	UCSR0B = (1 << TXEN0) | (1 << RXEN0) | (1 << RXCIE0);
 	// Configurar formato: 8 bits de datos, 1 bit de parada
