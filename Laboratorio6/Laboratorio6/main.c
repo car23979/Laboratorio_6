@@ -52,3 +52,19 @@ ISR(USART_RX_vect) {
 	PORTB = received_char & 0x3F;       // B0-B5 (6 bits menos significativos)
 	PORTD = (PORTD & 0x3F) | ((received_char << 2) & 0xC0); // D6-D7 (bits 6 y 7)
 }
+
+int main(void) {
+	// Inicializar UART
+	UART_Init(MYUBRR);
+	
+	// Configurar LEDs
+	DDRB = 0x3F;    // B0-B5 como salidas
+	DDRD |= (1 << PD6) | (1 << PD7); // D6 y D7 como salidas
+	
+	// Habilitar interrupciones globales
+	sei();
+	
+	// Mensaje inicial
+	enviar_cadena("Sistema UART listo\r\n");
+	enviar_cadena("Parte 1: Envio automatico activo\r\n");
+	enviar_cadena("Parte 2: Recepcion por interrupcion activa\r\n");
