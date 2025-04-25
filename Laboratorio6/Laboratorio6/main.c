@@ -68,3 +68,11 @@ int main(void) {
 	enviar_cadena("Sistema UART listo\r\n");
 	enviar_cadena("Parte 1: Envio automatico activo\r\n");
 	enviar_cadena("Parte 2: Recepcion por interrupcion activa\r\n");
+	
+	unsigned char counter = 0;
+	
+	while(1) {
+		// Parte 1: Envío periódico de caracteres
+		UART_Transmit('A' + (counter % 26)); // Envia letras de la A a la Z
+		enviar_cadena("\r\nEnviado: ");
+		UART_Transmit('A' + (counter % 26));
