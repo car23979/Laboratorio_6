@@ -28,6 +28,7 @@ void UART_init(unsigned int ubrr) {
 	UCSR0C = (1 << UCSZ01) | (1 << UCSZ00);
 }
 
+// Enviar un caracter
 void UART_sendChar(char data) {
 	while (!(UCSR0A & (1 << UDRE0)));  // Espera a que el buffer esté vacío
 	UDR0 = data;
