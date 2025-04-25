@@ -42,3 +42,13 @@ void enviar_cadena(char txt[]) {
 		i++;
 	}
 }
+
+// Rutina de interrupción por recepción UART (Parte 2)
+ISR(USART_RX_vect) {
+	received_char = UDR0; // Leer dato recibido
+	new_data_flag = 1;    // Activar flag
+	
+	// Mostrar en LEDs inmediatamente
+	PORTB = received_char & 0x3F;       // B0-B5 (6 bits menos significativos)
+	PORTD = (PORTD & 0x3F) | ((received_char << 2) & 0xC0); // D6-D7 (bits 6 y 7)
+}
