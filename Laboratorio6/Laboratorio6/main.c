@@ -12,3 +12,10 @@
 
 #define BAUD 9600
 #define MYUBRR F_CPU/16/BAUD-1
+
+void UART_init(void) {
+	UBRR0H = (unsigned char)(UBRR_VALUE >> 8);
+	UBRR0L = (unsigned char)(UBRR_VALUE);
+	UCSR0B = (1 << RXEN0) | (1 << TXEN0);  // RX y TX habilitados
+	UCSR0C = (1 << UCSZ01) | (1 << UCSZ00); // 8 bits, sin paridad
+}
