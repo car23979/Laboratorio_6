@@ -21,9 +21,9 @@ volatile unsigned char received_char = 0;
 volatile uint8_t new_data_flag = 0;
 
 // Prototipos de funciones
-void UART_Init(unsigned int ubrr);
+void UART_init(unsigned int ubrr);
 void UART_Transmit(unsigned char data);
-void enviar_cadena(const char *txt);
+void enviar_cadena(char txt[]);
 
 // Inicialización UART
 void UART_init(unsigned int ubrr) {
@@ -63,7 +63,7 @@ ISR(USART_RX_vect) {
 
 int main(void) {
 	// Inicializar UART
-	UART_Init(MYUBRR);
+	UART_init(MYUBRR);
 	
 	// Configurar LEDs
 	DDRB = 0x3F;    // B0-B5 como salidas
