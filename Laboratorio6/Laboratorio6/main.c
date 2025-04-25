@@ -22,8 +22,10 @@ void UART_init(unsigned int ubrr) {
     // Configurar baud rate
 	UBRR0H = (unsigned char)(ubrr >> 8);
 	UBRR0L = (unsigned char)(ubrr);
-	UCSR0B = (1 << RXEN0) | (1 << TXEN0);  // RX y TX habilitados
-	UCSR0C = (1 << UCSZ01) | (1 << UCSZ00); // 8 bits, sin paridad
+	// Habilitar transmisor, receptor e interrupción por recepción
+	UCSR0B = (1 << TXEN0) | (1 << RXEN0) | (1 << RXCIE0);
+	// Configurar formato: 8 bits de datos, 1 bit de parada
+	UCSR0C = (1 << UCSZ01) | (1 << UCSZ00);
 }
 
 void UART_sendChar(char data) {
