@@ -11,7 +11,11 @@
 #include <util/delay.h>
 
 #define BAUD 9600
-#define UBRR_VALUE ((F_CPU / (16UL * BAUD)) - 1)
+#define MYUBRR F_CPU/16/BAUD-1
+
+// Variables globales
+volatile unsigned char received_char = 0;
+volatile uint8_t new_data_flag = 0;
 
 void UART_init(void) {
 	UBRR0H = (unsigned char)(UBRR_VALUE >> 8);
