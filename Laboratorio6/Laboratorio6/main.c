@@ -83,3 +83,8 @@ int main(void) {
 			UART_Transmit(received_char);
 			new_data_flag = 0; // Resetear flag
 		}
+		
+		_delay_ms(1000);
+		counter++;
+	}
+}
