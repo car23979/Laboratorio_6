@@ -81,7 +81,23 @@ void display_menu(void) {
 
 // Función itoa
 void my_itoa(uint16_t value, char txt[] buffer, uint8_t base) {
+	char* p = buffer;
+	uint16_t shifter = value;
 	
+	do {
+		*p++ = "0123456789ABCDEF"[shifter % base];
+		shifter /= base;
+	} while(shifter);
+	
+	*p = '\0';
+	
+	// Invertir la cadena
+	char *start = buffer, *end = p-1;
+	while(start < end) {
+		char temp = *start;
+		*start++ = *end;
+		*end-- = temp;
+	}
 }
 
 int main(void) {
