@@ -135,4 +135,23 @@ int main(void) {
 			    break;
 		    }
 			
+			case '2': {
+				cadena("\r\nIngrese caracter ASCII: ");
+				unsigned char ascii_char = UART_Receive();
+				
+				cadena("\r\nCaracter enviado: ");
+				UART_Transmit(ascii_char);
+				cadena(" (Decimal: ");
+				
+				// Mostrar valor decimal
+				char dec_buffer[4];
+				my_itoa(ascii_char, dec_buffer, 10);
+				cadena(dec_buffer);
+				cadena(")");
+				
+				// Mostrar en LEDs
+				show_on_leds(ascii_char);
+				break;
+			}
+			
         
