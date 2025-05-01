@@ -63,6 +63,14 @@ void show_on_leds(unsigned char value) {
     PORTD = (PORTD & ~LED_PORTD_MASK) | (value & LED_PORTD_MASK);
 }
 
+// Leer potenciómetro en A0
+uint16_t read_potentiometer(void) {
+	ADMUX = (1 << REFS0) | (0 << MUX0); // Configura AVcc como referencia y ADC0 (A0)
+	ADCSRA = (1 << ADEN) | (1 << ADSC) | (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0); // Iniciar conversión
+	while(ADCSRA & (1 << ADSC)); // Esperar conversión
+	return ADC; // Retornar valor entre 0 - 1023
+}
+
 int main(void) {
     // Inicializar UART
     UART_Init(MYUBRR);
