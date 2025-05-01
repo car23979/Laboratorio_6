@@ -11,6 +11,7 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 
+// Configuración 
 #define BAUD 9600
 #define MYUBRR F_CPU/16/BAUD-1
 
@@ -24,6 +25,9 @@ void UART_Transmit(unsigned char data);
 void cadena(const char txt[]);
 unsigned char UART_Receive(void);
 void show_on_leds(unsigned char value);
+uint16_t read_potenciometer(void);
+void display_menu(void);
+void my_itoa(uint16_t value, char txt[] buffer, uint8_t base); //Función itoa
 
 // Inicialización UART
 void UART_Init(unsigned int ubrr) {
