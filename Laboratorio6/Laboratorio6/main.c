@@ -27,7 +27,7 @@ unsigned char UART_Receive(void);
 void show_on_leds(unsigned char value);
 uint16_t read_potenciometer(void);
 void display_menu(void);
-void my_itoa(uint16_t value, char txt[] buffer, uint8_t base); //Función itoa
+void my_itoa(uint16_t value, char* buffer, uint8_t base); //Función itoa
 
 // Inicialización UART
 void UART_Init(unsigned int ubrr) {
@@ -80,7 +80,7 @@ void display_menu(void) {
 }
 
 // Función itoa
-void my_itoa(uint16_t value, char txt[] buffer, uint8_t base) {
+void my_itoa(uint16_t value, char* buffer, uint8_t base) {
 	char* p = buffer;
 	uint16_t shifter = value;
 	
@@ -153,13 +153,14 @@ int main(void) {
 				show_on_leds(ascii_char);
 				break;
 			}
-			 default:
-			 cadena("\r\nOpcion no valida!");
-			 break;
+			default:
+				cadena("\r\nOpcion no valida!");
+				break;
 		 }
 		 
 		 _delay_ms(100); // Pequeña pausa antes de mostrar menú nuevamente
-	
+		
+	}
 	 
 	 return 0;
  }    
