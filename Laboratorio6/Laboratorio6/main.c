@@ -71,6 +71,19 @@ uint16_t read_potentiometer(void) {
 	return ADC; // Retornar valor entre 0 - 1023
 }
 
+// Mostrar Menú
+void display_menu(void) {
+	cadena("\r\n=== MENU PRINCIPAL ===");
+	cadena("\r\n1. Leer Potenciometro (A0)");
+	cadena("\r\n2. Enviar Caracter ASCII");
+	cadena("\r\nSeleccione opción (1-2): ");
+}
+
+// Función itoa
+void my_itoa(uint16_t value, char txt[] buffer, uint8_t base) {
+	
+}
+
 int main(void) {
     // Inicializar UART
     UART_Init(MYUBRR);
