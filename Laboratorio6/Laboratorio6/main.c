@@ -153,5 +153,13 @@ int main(void) {
 				show_on_leds(ascii_char);
 				break;
 			}
-			
-        
+			 default:
+			 cadena("\r\nOpcion no valida!");
+			 break;
+		 }
+		 
+		 _delay_ms(100); // Pequeña pausa antes de mostrar menú nuevamente
+	
+	 
+	 return 0;
+ }    
