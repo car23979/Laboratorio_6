@@ -108,50 +108,31 @@ int main(void) {
     DDRB = LED_PORTB_MASK;
     DDRD |= LED_PORTD_MASK;
     
+    // Configurar ADC
+    ADCSRA = (1 << ADEN) | (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0);
+    
     // Mensaje inicial
-    cadena("\r\nSistema UART inicializado\r\n");
-    cadena("Modo Transmision: Enviando A-Z\r\n");
-    cadena("Envie cualquier caracter para cambiar a Recepcion\r\n");
-    cadena("Envie 'T' para volver a Transmision\r\n\r\n");
-    
-    unsigned char mode = 0; // 0 = Transmisión, 1 = Recepción
-    unsigned char counter = 0;
-    
+    cadena("\r\nSistema UART con menu interactivo\r\n");
+        
     while(1) {
-        if(mode == 0) {
-            // Parte 1: Transmitir carácter y mostrar contador en LEDs
-            UART_Transmit('A' + (counter % 26));
-            show_on_leds(counter);
-            counter++;
-            
-            _delay_ms(500);
-            
-            // Verificar si se recibió un carácter para cambiar de modo
-            if(UCSR0A & (1 << RXC0)) {
-                UART_Receive(); // Limpiar buffer
-                mode = 1;
-                cadena("\r\nModo Recepcion activo\r\n");
-                cadena("LEDs muestran caracteres recibidos\r\n");
-                cadena("Presione 'T' para volver a Transmision\r\n\r\n");
-            }
-        } 
-        else {
-            // Parte 2: Recibir carácter y mostrar en LEDs
-            if(UCSR0A & (1 << RXC0)) {
-                unsigned char received = UART_Receive();
-                show_on_leds(received);
-                UART_Transmit(received); // Eco
-                
-                // Cambiar a modo transmisión si se recibe 'T' o 't'
-                if(received == 'T' || received == 't') {
-                    mode = 0;
-                    counter = 0; // Reiniciar contador
-                    cadena("\r\nModo Transmision activo\r\n");
-                    cadena("Enviando A-Z cada 500ms\r\n\r\n");
-                }
-            }
-        }
-    }
-    
-    return 0;
-}
+	    display_menu();
+	    
+	    unsigned char option = UART_Receive();
+	    UART_Transmit(option); // Eco
+	    
+	    switch(option) {
+		    case '1': {
+			    uint16_t pot_value = read_potentiometer();
+			    cadena("\r\nValor potenciometro: ");
+			    
+			    // Convertir valor a ASCII y enviar
+			    char buffer[10];
+			    my_itoa(pot_value, buffer, 10);
+			    cadena(buffer);
+			    
+			    // Mostrar en LEDs (solo bits bajos)
+			    show_on_leds(pot_value & 0xFF);
+			    break;
+		    }
+			
+        
